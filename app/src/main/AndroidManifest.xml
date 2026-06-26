@@ -6,7 +6,8 @@
         android:label="LIMC"
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
 
             <intent-filter>
