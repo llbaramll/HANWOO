@@ -1,0 +1,6 @@
+{
+  "name": "LIMC",
+  "description": "LIMC 모바일 포탈 웹 앱",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
