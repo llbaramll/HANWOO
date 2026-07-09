@@ -1,0 +1,75 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Change wrapper permissions
+      run: chmod +x gradlew
+      continue-on-error: true
+
+    - name: Generate Keystore
+      run: |
+        keytool -genkeypair -v \
+          -keystore app/hanwoo.jks \
+          -alias hanwoo-alias \
+          -keyalg RSA \
+          -keysize 2048 \
+          -validity 10000 \
+          -storepass "mnplimc!00$" \
+          -keypass "mnplimc!00$" \
+          -dname "CN=MNPLimc, OU=IT, O=MNPLimc, L=Seoul, S=Seoul, C=KR"
+
+    - name: Create release signing config
+      run: |
+        cat <<EOF >> app/build.gradle
+
+        android {
+            signingConfigs {
+                release {
+                    storeFile file("hanwoo.jks")
+                    storePassword "mnplimc!00$"
+                    keyAlias "hanwoo-alias"
+                    keyPassword "mnplimc!00$"
+                }
+            }
+            buildTypes {
+                release {
+                    signingConfig signingConfigs.release
+                }
+            }
+        }
+        EOF
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+
+    - name: Build APK & AAB (Release)
+      run: ./gradlew assembleRelease bundleRelease
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: hanwoo-apk
+        path: app/build/outputs/apk/release/app-release.apk
+
+    - name: Upload AAB
+      uses: actions/upload-artifact@v4
+      with:
+        name: hanwoo-aab
+        path: app/build/outputs/bundle/release/app-release.aab
