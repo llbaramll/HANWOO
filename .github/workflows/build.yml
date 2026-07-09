@@ -19,10 +19,6 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Change wrapper permissions
-      run: chmod +x gradlew
-      continue-on-error: true
-
     - name: Generate Keystore
       run: |
         keytool -genkeypair -v \
@@ -34,27 +30,6 @@ jobs:
           -storepass "mnplimc!00$" \
           -keypass "mnplimc!00$" \
           -dname "CN=MNPLimc, OU=IT, O=MNPLimc, L=Seoul, S=Seoul, C=KR"
-
-    - name: Create release signing config
-      run: |
-        cat <<EOF >> app/build.gradle
-
-        android {
-            signingConfigs {
-                release {
-                    storeFile file("hanwoo.jks")
-                    storePassword "mnplimc!00$"
-                    keyAlias "hanwoo-alias"
-                    keyPassword "mnplimc!00$"
-                }
-            }
-            buildTypes {
-                release {
-                    signingConfig signingConfigs.release
-                }
-            }
-        }
-        EOF
 
     - name: Download Gradle Wrapper
       run: gradle wrapper --gradle-version 8.2
