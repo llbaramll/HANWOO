@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         cookieManager.setAcceptThirdPartyCookies(webView, true);
 
         webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new android.webkit.WebChromeClient()); // 자바스크립트 알림창(Alert/Confirm) 허용
 
         if (savedInstanceState == null) {
             webView.loadUrl("https://prod.limc.co.kr/m/login.jsp");
