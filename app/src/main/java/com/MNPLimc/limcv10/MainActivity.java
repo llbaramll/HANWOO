@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         webView.setWebViewClient(new WebViewClient());
 
-        // Target SDK 36 지원 최신 뒤로가기(Back Button) 로직
+        // Target SDK 36 뒤로가기 핸들링
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 웹뷰 연결 주소
         webView.loadUrl("https://www.naver.com");
     }
 }
