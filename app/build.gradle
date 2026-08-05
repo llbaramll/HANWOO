@@ -7,7 +7,7 @@ android {
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.MNPLimc.limcv10"
+        applicationId "com.MNPLIMC.limcv10"
         minSdk 24
         targetSdk 36
         versionCode 2
