@@ -37,6 +37,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        webView.loadUrl("https://www.naver.com");
+        webView.loadUrl("https://prod.limc.co.kr/m/login.jsp");
     }
 }
