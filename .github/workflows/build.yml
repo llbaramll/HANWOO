@@ -24,19 +24,7 @@ jobs:
         with:
           gradle-version: '8.10.2'
 
-      # 빌드 직전 release.keystore 파일 자동 생성
-      - name: Generate Keystore
-        run: |
-          keytool -genkeypair -v \
-            -keystore release.keystore \
-            -alias hanwoo_key \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -storepass "mnplimc!00$" \
-            -keypass "mnplimc!00$" \
-            -dname "CN=HANWOO, OU=Dev, O=HANWOO, L=Seoul, C=KR"
-
+      # 저장소에 직접 업로드한 정식 release.keystore 파일로 서명 빌드
       - name: Build APK & AAB
         run: gradle assembleRelease bundleRelease
 
